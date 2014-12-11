@@ -57,6 +57,7 @@ colnames(f15)[1] <- "Extractdate"
 f15$Source<-NULL #delete column with source URL
 ### TO BE ANALYZED: f15$Extracdate <- strptime(f15$Extracdate, "%d/%m/%Y")# foramting date and time
 #Overall check per country
+
 f16<-dcast(f15, CountryNm ~ f14) 
 #Pivot table ExtractDate per country, source: http://www.r-bloggers.com/pivot-tables-in-r/
 #dcast intersting URL: http://www.dummies.com/how-to/content/how-to-cast-data-to-wide-format-in-r.html
@@ -74,9 +75,12 @@ f22<-melt(f21)
 sum(f22$value)#to check if we still have tha adequate number of recors)
 colnames(f22)[2] <- "Extractdate"
 colnames(f22)[3] <- "Frequence"
+
 #E/FATCA Processing################################
 
 #B/Graphes##############################################
+
+
 f23<-ggplot(data=f22, aes(x=Extractdate, y=Frequence, fill=GIIN)) + geom_bar(stat="identity")
 f23
 #E/Graphes##############################################
@@ -97,10 +101,8 @@ manipulate(
         {
         f28 <- subset(f25, f25$Frequence>=f28)
         f29<-ggplot(data=f28, aes(x=Extractdate, y=Frequence, fill=CountryNm)) +
-              geom_bar(stat="identity") + scale_fill_grey()+
-              theme_economist() + 
-              theme(axis.text.x = element_text(angle=90))+
-              ggtitle("Charles & the R-Economist")
+              geom_bar(stat="identity")
+              theme(axis.text.x = element_text(angle=90))
         f29 #some charts in http://docs.ggplot2.org/0.9.3.1/geom_bar.html
 },
 f28 = slider(1000, 8000, step=50, initial = 1000)
@@ -117,6 +119,22 @@ manipulate(
 },
 f33 = picker("2014-07-01", "2014-08-01", "2014-09-01", "2014-10-01", "2014-11-01")
 )
+
+#B/ dedicated topic: search by text#############
+nf15<-subset(f15, grepl("société",f15$FINm) |  
+                     grepl("générale",f15$FINm) |  
+                     grepl("societe",f15$FINm)|
+                     grepl("generale",f15$FINm) 
+)                 
+
+nf16<-dcast(nf15, GIIN1 ~ Extractdate)
+nf17<-melt(nf16)
+colnames(nf17)[2] <- "Extractdate"
+colnames(nf17)[3] <- "Frequence"
+nf18<-ggplot(data=nf17, aes(x=Extractdate, y=Frequence, fill=GIIN1)) + geom_bar(stat="identity")
+nf18
+#N/ dedicated topic: search by text#############
+
 #B/View##############################################
 View(18)
 View(24)
