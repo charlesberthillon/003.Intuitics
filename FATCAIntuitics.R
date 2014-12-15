@@ -30,11 +30,12 @@ download.file.https2("https://github.com/charlesberthillon/001.FATCA/blob/master
 
 f4<-'downloaded'
 
-f5 <- list.files(path = f4, pattern = NULL, all.files = FALSE, full.names = TRUE, recursive = FALSE, ignore.case = FALSE)
+f5 <- list.files(path = tempfile("downloaded"), pattern = NULL, all.files = FALSE, full.names = TRUE, recursive = FALSE, ignore.case = FALSE)
 # Source: http://stackoverflow.com/questions/5186570/when-importing-csv-into-r-how-to-generate-column-with-name-of-the-csv
 # list.files() function reads into R the names of every file in that directory
 # f5= filenames
 # f6=read_csv_filename
+View(f5)
 
 f6 <- function(f5){  #read_csv_file
         f7 <- read.csv(f5)
