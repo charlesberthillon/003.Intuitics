@@ -96,3 +96,11 @@ get.dates <- function() {
 }
 
 f9
+
+get.f34.plot <- function(f26){ 
+        f34<- gvisGeoMap(f26, locationvar="CountryNm", numvar="Frequence", 
+                                  options=list(height=400, dataMode='regions'))
+plot(f34)
+
+}
+
